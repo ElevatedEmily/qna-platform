@@ -25,13 +25,18 @@ const SignUpPage = () => {
     setError("");
 
     try {
+      // Log the beginning of signup
+      console.log("Starting signup process...");
+
       // Step 1: Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("User created:", userCredential.user);
 
       // Step 2: Update the user's display name
       await updateProfile(userCredential.user, {
         displayName: name,
       });
+      console.log("Profile updated with name:", name);
 
       // Step 3: Save additional user info in Firestore
       const userId = userCredential.user.uid;
@@ -40,13 +45,19 @@ const SignUpPage = () => {
         email,
         createdAt: new Date(),
       });
+      console.log("User data saved to Firestore.");
 
       alert("Account created successfully!");
-      navigate("/"); // Redirect to home or login page
+
+      // Redirect immediately to login
+      navigate("/login");
     } catch (err: any) {
+      console.error("Error during signup:", err);
       setError(err.message || "Something went wrong. Please try again.");
     } finally {
+      // Always stop the spinner
       setIsLoading(false);
+      console.log("Signup process complete.");
     }
   };
 

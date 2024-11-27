@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   List,
@@ -13,23 +13,25 @@ import HomeIcon from "@mui/icons-material/Home";
 import ForumIcon from "@mui/icons-material/Forum";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Context to manage user state
+import { auth } from "../firebase"; // Firebase auth
 
 const Sidebar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Mock login state
-  const navigate = useNavigate(); // For navigation
+  const { user } = useAuth(); // Get user state from AuthContext
+  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
+  const handleLogout = async () => {
+    await auth.signOut(); // Logout the user
+    navigate("/login");
   };
 
   return (
     <Box
       sx={{
-        width: 240, // Fixed width for the sidebar
-        height: "100vh", // Full height
-        backgroundColor: "#1E1E1E", // Dark theme background
-        color: "white", // White text for contrast
+        width: 240,
+        height: "100vh",
+        backgroundColor: "#1E1E1E",
+        color: "white",
         display: "flex",
         flexDirection: "column",
         padding: 2,
@@ -44,17 +46,21 @@ const Sidebar = () => {
           flexDirection: "column",
         }}
       >
-        {isLoggedIn ? (
+        {user ? (
           <>
             {/* Logged-in User's Profile */}
             <Avatar
               sx={{ width: 48, height: 48, marginBottom: 1 }}
-              src="https://via.placeholder.com/150" // Replace with actual profile pic URL
+              src={user.photoURL || "https://via.placeholder.com/150"} // User's profile photo or placeholder
               alt="User Profile"
             />
-            <Typography variant="body1">John Doe</Typography>
+            <Typography variant="body1">{user.displayName || "User"}</Typography>
             <Button
-              sx={{ marginTop: 1, color: "gray" }}
+              sx={{
+                marginTop: 1,
+                color: "gray",
+                textTransform: "none", // Prevents uppercase text
+              }}
               onClick={handleLogout}
               size="small"
             >
