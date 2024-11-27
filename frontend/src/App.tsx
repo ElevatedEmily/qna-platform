@@ -1,11 +1,11 @@
-
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/Dashboard";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
+import AccountPage from "./components/AccountPage"; // Import AccountPage
 import AppThemeProvider from "./components/ThemeProvider";
 import { Box } from "@mui/material";
-import { Routes, Route } from "react-router-dom"; // Remove BrowserRouter here
+import { Routes, Route } from "react-router-dom"; // Routing for page navigation
 
 const App = () => {
   return (
@@ -31,6 +31,7 @@ const App = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/account" element={<AccountPage />} /> {/* Add AccountPage */}
           </Routes>
         </Box>
       </Box>

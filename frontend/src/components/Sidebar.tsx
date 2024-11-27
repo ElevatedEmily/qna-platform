@@ -6,7 +6,6 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-  Avatar,
   Button,
   Divider,
 } from "@mui/material";
@@ -49,16 +48,12 @@ const Sidebar = () => {
       >
         {user ? (
           <>
-            {/* Logged-in User's Profile */}
-            <Avatar
-              sx={{ width: 48, height: 48, marginBottom: 1 }}
-              src={user.photoURL || "https://via.placeholder.com/150"} // User's profile photo or placeholder
-              alt="User Profile"
-            />
-            <Typography variant="body1">{user.displayName || "User"}</Typography>
+            {/* Logged-in User's Name */}
+            <Typography variant="body1" sx={{ marginBottom: 1 }}>
+              {user.displayName || "User"}
+            </Typography>
             <Button
               sx={{
-                marginTop: 1,
                 color: "gray",
                 textTransform: "none", // Prevents uppercase text
               }}
