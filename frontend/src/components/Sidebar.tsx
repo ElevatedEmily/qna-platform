@@ -8,6 +8,7 @@ import {
   Typography,
   Avatar,
   Button,
+  Divider,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import ForumIcon from "@mui/icons-material/Forum";
@@ -92,6 +93,9 @@ const Sidebar = () => {
           </>
         )}
       </Box>
+
+      {/* Divider */}
+      <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.2)", marginY: 1 }} />
 
       {/* Navigation Links */}
       <List>
