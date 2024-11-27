@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { auth, db } from "../firebase"; // Firestore import
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore"; // Firestore methods
@@ -10,6 +10,7 @@ import {
   Alert,
   CircularProgress,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [name, setName] = useState(""); // Name input
@@ -17,21 +18,22 @@ const SignUpPage = () => {
   const [password, setPassword] = useState(""); // Password input
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignUp = async () => {
     setIsLoading(true);
     setError("");
 
     try {
-      // Create user with email and password
+      // Step 1: Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Update the user's display name
+      // Step 2: Update the user's display name
       await updateProfile(userCredential.user, {
         displayName: name,
       });
 
-      // Save additional user info in Firestore
+      // Step 3: Save additional user info in Firestore
       const userId = userCredential.user.uid;
       await setDoc(doc(db, "users", userId), {
         name,
@@ -40,8 +42,9 @@ const SignUpPage = () => {
       });
 
       alert("Account created successfully!");
+      navigate("/"); // Redirect to home or login page
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }

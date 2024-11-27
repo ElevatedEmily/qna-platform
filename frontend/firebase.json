@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "public": "dist", // Change this to 'build' if you're using Create React App
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
