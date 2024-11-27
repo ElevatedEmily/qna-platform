@@ -3,6 +3,9 @@ import Dashboard from "./components/Dashboard";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 import AccountPage from "./components/AccountPage"; // Import AccountPage
+import ForumPage from "./components/ForumPage";
+import CreatePostPage from "./components/CreatePostPage";
+import PostDetailPage from "./components/PostDetailPage";
 import AppThemeProvider from "./components/ThemeProvider";
 import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom"; // Routing for page navigation
@@ -31,7 +34,10 @@ const App = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/account" element={<AccountPage />} /> {/* Add AccountPage */}
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/forum" element={<ForumPage />} /> {/* Add ForumPage */}
+            <Route path="/create-post" element={<CreatePostPage />} />
+            <Route path="/post/:id" element={<PostDetailPage />} />
           </Routes>
         </Box>
       </Box>
