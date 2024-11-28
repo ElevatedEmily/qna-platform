@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   CardContent,
+  IconButton,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase";
@@ -14,8 +15,10 @@ import {
   getDoc,
   updateDoc,
   arrayUnion,
+  increment,
   serverTimestamp,
 } from "firebase/firestore";
+import { ThumbUp } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 
 const PostDetailPage = () => {
@@ -50,7 +53,7 @@ const PostDetailPage = () => {
       const postRef = doc(db, "forumPosts", id!);
       const comment = {
         text: newComment,
-        createdBy: user.displayName,
+        createdBy: user.displayName || "Anonymous",
         createdAt: serverTimestamp(),
       };
 
@@ -62,6 +65,19 @@ const PostDetailPage = () => {
       fetchPost(); // Refresh the post to display the new comment
     } catch (error) {
       console.error("Error adding comment:", error);
+    }
+  };
+
+  // Handle post like
+  const handleLikePost = async () => {
+    try {
+      const postRef = doc(db, "forumPosts", id!);
+      await updateDoc(postRef, {
+        likes: increment(1), // Increment likes by 1
+      });
+      fetchPost(); // Refresh the post to display updated likes
+    } catch (error) {
+      console.error("Error liking the post:", error);
     }
   };
 
@@ -81,9 +97,7 @@ const PostDetailPage = () => {
           color: "white",
         }}
       >
-        <Typography variant="h5">
-          {error || "Loading..."}
-        </Typography>
+        <Typography variant="h5">{error || "Loading..."}</Typography>
       </Box>
     );
   }
@@ -94,7 +108,9 @@ const PostDetailPage = () => {
         padding: 4,
         backgroundColor: "#121212",
         color: "white",
-        minHeight: "100vh",
+        height: "100vh",
+        width: "100vw", // Full screen width
+        boxSizing: "border-box",
       }}
     >
       <Button
@@ -111,14 +127,36 @@ const PostDetailPage = () => {
         Back to Forum
       </Button>
 
-      <Card sx={{ backgroundColor: "#1E1E1E", padding: 3, borderRadius: 3 }}>
-        <CardContent>
+      {/* Post Card */}
+      <Card
+        sx={{
+          backgroundColor: "#1E1E1E",
+          padding: 3,
+          borderRadius: 3,
+          height: "calc(100% - 80px)", // Fill the page, minus padding/margin
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <CardContent
+          sx={{
+            flex: "1 1 auto",
+            overflowY: "auto",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "start",
+          }}
+        >
+          {/* Post Title */}
           <Typography variant="h4" gutterBottom>
             {post.title}
           </Typography>
+
+          {/* Post Content */}
           <Typography variant="body1" gutterBottom>
             {post.content}
           </Typography>
+
           {post.image && (
             <Box
               component="img"
@@ -132,13 +170,26 @@ const PostDetailPage = () => {
               }}
             />
           )}
+
+          {/* Post Metadata */}
           <Typography
             variant="caption"
             sx={{ display: "block", marginTop: 2 }}
           >
-            By {post.createdBy} on{" "}
+            By {post.createdBy || "Anonymous"} on{" "}
             {new Date(post.createdAt?.seconds * 1000).toLocaleString()}
           </Typography>
+
+          {/* Like Button */}
+          <Box sx={{ display: "flex", alignItems: "center", marginTop: 2 }}>
+            <IconButton
+              onClick={handleLikePost}
+              sx={{ color: "#8A2BE2", marginRight: 1 }}
+            >
+              <ThumbUp />
+            </IconButton>
+            <Typography>{post.likes || 0} Likes</Typography>
+          </Box>
         </CardContent>
       </Card>
 
@@ -164,7 +215,7 @@ const PostDetailPage = () => {
                 color="text.secondary"
                 sx={{ display: "block" }}
               >
-                By {comment.createdBy} on{" "}
+                By {comment.createdBy || "Anonymous"} on{" "}
                 {new Date(comment.createdAt?.seconds * 1000).toLocaleString()}
               </Typography>
             </Box>
