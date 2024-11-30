@@ -1,0 +1,40 @@
+.lesson-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #121212;
+}
+
+.lesson-content {
+  width: 90%; /* Take up 90% of the window width */
+  max-width: 1500px; /* Limit the width for large screens */
+  text-align: center;
+  padding: 20px;
+  margin: 0 auto; 
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.lesson-title {
+  color: white;
+  margin-bottom: 16px;
+}
+
+.lesson-canvas {
+  width: 100%;
+  height: 60vh;
+  margin-bottom: 16px;
+}
+
+.lesson-slider {
+  margin-top: 16px;
+}
+
+.lesson-slider-text {
+  color: white;
+  margin-bottom: 8px;
+}
