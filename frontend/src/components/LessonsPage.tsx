@@ -2,9 +2,10 @@ import { useNavigate } from "react-router-dom";
 import {  Typography, Card, CardActionArea, CardMedia, CardContent } from "@mui/material";
 import "./LessonPage.css";
 import lesson1Img from "../public/lesson1.png"
+import lesson2Img from "../public/lesson2.png"
 const lessons = [
   { id: 1, title: "Lesson 1: Introduction to Ramps", image: lesson1Img },
-  { id: 2, title: "Lesson 2: Basics of React Three Fiber", image: "/images/lesson2.jpg" },
+  { id: 2, title: "Lesson 2: Intermediate Ramps", image: lesson2Img },
   { id: 3, title: "Lesson 3: Building a 3D Scene", image: "/images/lesson3.jpg" },
 ];
 

@@ -7,16 +7,17 @@ import ForumPage from "./components/ForumPage";
 import CreatePostPage from "./components/CreatePostPage";
 import PostDetailPage from "./components/PostDetailPage";
 import AppThemeProvider from "./components/ThemeProvider";
-import LessonsPage from "./components/LessonsPage"; // Import LessonsPage
-import Lesson1 from "./components/lessons/Lesson1"; // Import Lesson1
+import LessonsPage from "./components/LessonsPage"; 
+import Lesson1 from "./components/lessons/Lesson1"; 
+import Lesson2 from "./components/lessons/Lesson2";
 import { Box } from "@mui/material";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 const App = () => {
   const location = useLocation();
 
-  // Check if the current route is specifically "/lessons/1"
-  const isSpecificLessonRoute = location.pathname === "/lessons/1";
+  // Check if the current route is specifically for lessons
+  const isSpecificLessonRoute = ["/lessons/1", "/lessons/2"].includes(location.pathname);
 
   return (
     <AppThemeProvider>
@@ -28,7 +29,7 @@ const App = () => {
           color: "white", // Ensure consistent text color
         }}
       >
-        {/* Sidebar: Visible for all routes except "/lessons/1" */}
+        {/* Sidebar: Visible for all routes except specific lessons */}
         {!isSpecificLessonRoute && <Sidebar />}
 
         {/* Main Content Area */}
@@ -55,6 +56,7 @@ const App = () => {
             <Route path="/post/:id" element={<PostDetailPage />} />
             <Route path="/lessons" element={<LessonsPage />} />
             <Route path="/lessons/1" element={<Lesson1 />} />
+            <Route path="/lessons/2" element={<Lesson2 />} />
           </Routes>
         </Box>
       </Box>
